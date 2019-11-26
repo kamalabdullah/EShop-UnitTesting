@@ -14,7 +14,7 @@ namespace Integrant.EShop.Services
         private readonly IProductRepository _productRepository;
         public ProductService(IProductRepository productRepository)
         {
-            this._productRepository = productRepository;
+            _productRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
         }
         public async Task<IEnumerable<ProductInfo>> GetAllProduct(ProductFilter filter)
         {
@@ -23,6 +23,10 @@ namespace Integrant.EShop.Services
 
         public async Task<ProductInfo> GetProductById(int Id)
         {
+            if (Id <= 0)
+            {
+                return null;
+            }
             return await _productRepository.GetProductById(Id);
         }
     }

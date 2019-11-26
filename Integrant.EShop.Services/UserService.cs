@@ -12,12 +12,12 @@ namespace Integrant.EShop.Services
         private readonly IUserRepository _userRepository;
         public UserService(IUserRepository userRepository)
         {
-            this._userRepository = userRepository;
+            this._userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
         }
 
         public UserInfo GetUserByName(string name)
         {
-            return _userRepository.GetUserByName(name);
+           return !string.IsNullOrWhiteSpace(name) ?  _userRepository.GetUserByName(name) : null;
         }
     }
 }
